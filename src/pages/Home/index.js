@@ -1,34 +1,34 @@
 
-import {FiLink} from 'react-icons/fi'
-import './home.css'
-
-import { useState } from 'react'
-
-import Menu from '../../components/Menu'
+import {FiLink} from 'react-icons/fi';
+import './home.css';
+import { useState } from 'react';
+import Menu from '../../components/Menu';
 import LinkItem from '../../components/LinkItem';
-
 import api from '../../services/api';
+import {saveLink} from '../../services/storeLinks'
 
 export default function Home(){
   const [link, setLink] = useState('');
   const [data, setData] = useState({});
-  const [showModal, setShowmodal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   async function handleShortLink(){
-  try {
-    const response = await api.post("/shorten", {long_url: link})
+    try {
+      const response = await api.post('shorten', {
+        long_url: link
+      })
 
-    console.log(response.data);
+      setData(response.data);
+      setShowModal(true);
 
-    setData(response.data);
-    setShowmodal('');
+      saveLink('@EncurtaLink', response.data)
 
-    setLink('');
+      setLink('');
 
-  } catch (error) {
-    alert("Ops parece que algo deu errado")
-    setLink('');
-  }
+    } catch (error) {
+      alert("Ops parece que algo deu errado")
+      setLink('');
+    }
 
   }
 
@@ -55,7 +55,7 @@ export default function Home(){
 
         {showModal && (
           <LinkItem
-          closeModal={() => setShowmodal(false)}
+          closeModal={() => setShowModal(false)}
           content={data}/>
         )}
       </div>

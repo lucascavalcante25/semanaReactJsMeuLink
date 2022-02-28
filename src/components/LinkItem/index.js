@@ -1,8 +1,14 @@
 
-import './link-item.css'
-import{FiX, FiClipboard} from 'react-icons/fi'
+import './link-item.css';
+import{FiX, FiClipboard} from 'react-icons/fi';
+
+
 
 export default function LinkItem({closeModal, content}){
+
+    async function copyLink(){
+        await navigator.clipboard.writeText(content.link) 
+    }
     return(
         <div className="modal-container">
 
@@ -17,8 +23,9 @@ export default function LinkItem({closeModal, content}){
 
             <button className="modal-link">
                 {content.link}
-                <FiClipboard size={20} color="#fff"/>
+                <FiClipboard size={20} color="#fff" onClick={copyLink}/>
             </button>
         </div>
     )
 }
+
